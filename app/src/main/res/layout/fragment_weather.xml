@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    tools:context="me.vable.android.viewandlayoutlessons.WelcomeActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/icon_image_view"
+            android:src="@drawable/ic_lemon_sunny"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:id="@+id/description_text_view"
+            android:layout_marginLeft="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/temperature_text_view"
+                android:layout_width="60dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="35dp"
+                android:textSize="23pt"/>
+            <TextView
+                android:id="@+id/degree_text_view"
+                android:layout_width="60dp"
+                android:layout_height="80dp"
+                android:text="°C"
+                android:textSize="23pt"/>
+            <ImageView
+                android:id="@+id/wind_image_view"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="25dp"
+                android:src="@drawable/ic_wind"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:orientation="horizontal"
+        android:id="@+id/forecast"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/linearLayout">
+
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="90dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="65dp"
+                android:id="@+id/day1_text"
+                android:text="22"/>
+
+            <ImageView
+                android:id="@+id/day1_img"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:src="@drawable/ic_lemon_partly_cloudy"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="90dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="65dp"
+                android:id="@+id/day2_text"
+                android:text="22"/>
+
+            <ImageView
+                android:id="@+id/day2_img"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:src="@drawable/ic_lemon_sunny"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="90dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="65dp"
+                android:id="@+id/day3_text"
+                android:text="22"/>
+
+            <ImageView
+                android:id="@+id/day3_img"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:src="@drawable/ic_lemon_rainy"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="90dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="65dp"
+                android:id="@+id/day4_text"
+                android:text="22"/>
+
+            <ImageView
+                android:id="@+id/day4_img"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:src="@drawable/ic_lemon_cloudy"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
