@@ -7,37 +7,23 @@
         <item>Yantai</item>
         <item>Dalian</item>
         <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
-        <item>Lishui</item>
     </string-array>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer Close</string>
     <string name="action_settings">Settings</string>
     <string name="context_action_delete">Delete</string>
     <string name="search_hint">Search cities</string>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_unit">Display Unit</string>
+    <string-array name="pref_unit_entries">
+        <item>Fahrenhait</item>
+        <item>Celsius</item>
+    </string-array>
+    <string-array name="pref_unit_values">
+        <item>imperial</item>
+        <item>metric</item>
+    </string-array>
+    <string name="pref_unit_default">Fahrenhait</string>
 </resources>

@@ -11,5 +11,9 @@ import retrofit.http.Query;
  */
 public interface WeatherAPI {
     @GET("/weather")
-    void getWeatherCity(@Query("q") String city, @Query("appid") String appid, Callback<WeatherModel> callBack);
+    void getWeatherByName(@Query("q") String city, @Query("units") String units, @Query("appid") String appid, Callback<WeatherModel> callBack);
+
+    @GET("/weather")
+    void getWeatherById(@Query("id") String id, @Query("units") String units, @Query("appid") String appid, Callback<WeatherModel> callBack);
+
 }

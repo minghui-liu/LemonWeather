@@ -1,31 +1,43 @@
 package com.minghui_liu.android.lemonweather;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.SimpleCursorAdapter;
+
+import com.minghui_liu.android.lemonweather.database.UserCityContract;
+import com.minghui_liu.android.lemonweather.database.UserCityDataSource;
 
 public class MainActivity extends AppCompatActivity {
-    private String[] mCityList;
+    public String mUnits = "metric";
+
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout mLeftDrawer;
-    private LinearLayout mRightDrawer;
     private ListView mCityListView;
     private SearchView mSearchView;
+    private EditText mAddCityEditText;
+    private Button mAddCityButton;
+
+    private SimpleCursorAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,24 +46,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mCityList = getResources().getStringArray(R.array.city_list);
+        // Setup navigation drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mCityListView = (ListView) findViewById(R.id.city_list_view);
         mLeftDrawer = (LinearLayout) findViewById(R.id.left_drawer);
-        mRightDrawer = (LinearLayout) findViewById(R.id.right_drawer);
-        mSearchView = (SearchView) findViewById(R.id.city_search_view);
-
-        mSearchView.setIconifiedByDefault(false);
-
-        mCityListView.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mCityList));
-        mCityListView.setOnItemClickListener(new ListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        });
-        registerForContextMenu(mCityListView);
-
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
@@ -59,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 R.string.drawer_open,  /* "open drawer" description */
                 R.string.drawer_close  /* "close drawer" description */
         ) {
-
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -72,13 +68,39 @@ public class MainActivity extends AppCompatActivity {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
-
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
+        // Set home button as toggle button for navigation drawer
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_drawer);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        mSearchView = (SearchView) findViewById(R.id.city_search_view);
+        mSearchView.setIconifiedByDefault(false);
+
+        mCityListView = (ListView) findViewById(R.id.city_list_view);
+        mCityListView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectItem(position);
+            }
+        });
+        registerForContextMenu(mCityListView);
+
+        mAddCityEditText = (EditText) findViewById(R.id.add_city_edit_text);
+        mAddCityButton = (Button) findViewById(R.id.add_city_button);
+        mAddCityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Add city name to database
+                String cityname = mAddCityEditText.getText().toString();
+                UserCityDataSource userCityDataSource = UserCityDataSource.get(MainActivity.this);
+                userCityDataSource.addCity(cityname, 123456);
+
+                updateUI();
+            }
+        });
+        updateUI();
     }
 
     @Override
@@ -89,7 +111,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        return super.onContextItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.context_action_delete:
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                //String name = mCityListView.getAdapter().getItem(info.position);
+                //Log.d("LemonWeather", "item to delete: " + name);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     @Override
@@ -102,23 +132,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_settings:
-                mDrawerToggle.onOptionsItemSelected(item);
-
-                if (mDrawerLayout.isDrawerOpen(mLeftDrawer))
-                    mDrawerLayout.closeDrawer(mLeftDrawer);
-
-                if (!mDrawerLayout.isDrawerOpen(mRightDrawer))
-                    mDrawerLayout.openDrawer(mRightDrawer);
-                else
-                    mDrawerLayout.closeDrawer(mRightDrawer);
-
+                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     private void selectItem(int position) {
@@ -126,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = new WeatherFragment();
         Bundle args = new Bundle();
         args.putInt(WeatherFragment.ARG_CITY_NUMBER, position);
+        args.putString(WeatherFragment.ARG_UNITS_STRING, mUnits);
         fragment.setArguments(args);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -133,8 +155,24 @@ public class MainActivity extends AppCompatActivity {
 
         // update selected item and title, then close the drawer
         mCityListView.setItemChecked(position, true);
-        setTitle(mCityList[position]);
+        //setTitle(mCityList[position]);
+        // TODO: set title to city name
         mDrawerLayout.closeDrawer(mLeftDrawer);
+    }
+
+    private void updateUI() {
+        UserCityDataSource userCityDataSource = UserCityDataSource.get(MainActivity.this);
+        Cursor cursor = userCityDataSource.getAllCities();
+
+        if (mAdapter == null) {
+            String[] from = {UserCityContract.FeedEntry.COLUMN_NAME_CITY_NAME};
+            int[] to = {R.id.city_list_entry_name};
+            mAdapter = new SimpleCursorAdapter(this, R.layout.city_list_entry, cursor, from, to);
+            mCityListView.setAdapter(mAdapter);
+        } else {
+            mAdapter.changeCursor(cursor);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }
 
