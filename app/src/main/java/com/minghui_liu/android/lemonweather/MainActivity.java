@@ -1,8 +1,10 @@
 package com.minghui_liu.android.lemonweather;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -101,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         updateUI();
+
+        //initialize alarm service
+        setAlarmService();
+
     }
 
     @Override
@@ -174,5 +180,13 @@ public class MainActivity extends AppCompatActivity {
             mAdapter.notifyDataSetChanged();
         }
     }
+
+    private void setAlarmService(){
+        AlarmService.setContext(this);
+        boolean notificationOn = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("pref_notification", true);
+        if (notificationOn)
+            AlarmService.setAlarm();
+    }
+
 }
 
