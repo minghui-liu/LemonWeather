@@ -9,5 +9,6 @@
         android:layout_height="wrap_content"
         android:minHeight="32dp"
         android:id="@+id/city_list_entry_name"
-        />
+        android:textSize="18dp"
+        android:padding="8dp"/>
 </LinearLayout>

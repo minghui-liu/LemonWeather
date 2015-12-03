@@ -1,7 +1,6 @@
 package com.minghui_liu.android.lemonweather;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +8,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,10 +19,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SimpleCursorAdapter;
 
-import com.minghui_liu.android.lemonweather.database.UserCityContract;
 import com.minghui_liu.android.lemonweather.database.UserCityDataSource;
+import com.minghui_liu.android.lemonweather.model.City;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     public String mUnits = "metric";
@@ -34,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout mLeftDrawer;
     private ListView mCityListView;
     private SearchView mSearchView;
-    private EditText mAddCityEditText;
+    private EditText mCityNameEditText;
+    private EditText mCityIdEditText;
     private Button mAddCityButton;
-
-    private SimpleCursorAdapter mAdapter;
+    private UserCityAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         mSearchView = (SearchView) findViewById(R.id.city_search_view);
-        mSearchView.setIconifiedByDefault(false);
+        // mSearchView.setIconifiedByDefault(false);
 
         mCityListView = (ListView) findViewById(R.id.city_list_view);
         mCityListView.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -87,20 +86,22 @@ public class MainActivity extends AppCompatActivity {
         });
         registerForContextMenu(mCityListView);
 
-        mAddCityEditText = (EditText) findViewById(R.id.add_city_edit_text);
+        mCityNameEditText = (EditText) findViewById(R.id.city_name_edit_text);
+        mCityIdEditText = (EditText) findViewById(R.id.city_id_edit_text);
         mAddCityButton = (Button) findViewById(R.id.add_city_button);
         mAddCityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Add city name to database
-                String cityname = mAddCityEditText.getText().toString();
+                String cityname = mCityNameEditText.getText().toString();
+                int cityid = Integer.parseInt(mCityIdEditText.getText().toString());
                 UserCityDataSource userCityDataSource = UserCityDataSource.get(MainActivity.this);
-                userCityDataSource.addCity(cityname, 123456);
-
-                updateUI();
+                userCityDataSource.addCity(new City(cityname, cityid));
+                updateCityList();
             }
         });
-        updateUI();
+
+        updateCityList();
     }
 
     @Override
@@ -114,8 +115,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.context_action_delete:
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-                //String name = mCityListView.getAdapter().getItem(info.position);
-                //Log.d("LemonWeather", "item to delete: " + name);
+                // Log.d("LemonWeather", "Item to delete: " + mAdapter.getItem(info.position).toString());
+                UserCityDataSource.get(this).removeCity(mAdapter.getItem(info.position));
+                updateCityList();
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -156,23 +158,19 @@ public class MainActivity extends AppCompatActivity {
         // update selected item and title, then close the drawer
         mCityListView.setItemChecked(position, true);
         //setTitle(mCityList[position]);
-        // TODO: set title to city name
+        //TODO: set title to city name
         mDrawerLayout.closeDrawer(mLeftDrawer);
     }
 
-    private void updateUI() {
-        UserCityDataSource userCityDataSource = UserCityDataSource.get(MainActivity.this);
-        Cursor cursor = userCityDataSource.getAllCities();
+    private void updateCityList() {
+        ArrayList<City> citylist = UserCityDataSource.get(this).getAllCities();
 
         if (mAdapter == null) {
-            String[] from = {UserCityContract.FeedEntry.COLUMN_NAME_CITY_NAME};
-            int[] to = {R.id.city_list_entry_name};
-            mAdapter = new SimpleCursorAdapter(this, R.layout.city_list_entry, cursor, from, to);
+            mAdapter = new UserCityAdapter(this, R.layout.city_list_entry, citylist);
             mCityListView.setAdapter(mAdapter);
         } else {
-            mAdapter.changeCursor(cursor);
             mAdapter.notifyDataSetChanged();
         }
     }
-}
 
+}
