@@ -42,9 +42,10 @@
                 android:layout_width="60dp"
                 android:layout_height="80dp"
                 android:layout_marginLeft="35dp"
-                android:textSize="23pt"/>
+                android:textSize="23pt"
+                android:gravity="right"/>
             <TextView
-                android:id="@+id/degree_text_view"
+                android:id="@+id/unit_text_view"
                 android:layout_width="60dp"
                 android:layout_height="80dp"
                 android:text="°C"
@@ -79,9 +80,9 @@
 
             <TextView
                 android:layout_width="85dp"
-                android:layout_height="65dp"
-                android:id="@+id/day1_text"
-                android:text="22"/>
+                android:layout_height="wrap_content"
+                android:id="@+id/day1_temp"
+                />
 
             <ImageView
                 android:id="@+id/day1_img"
@@ -89,6 +90,11 @@
                 android:layout_height="85dp"
                 android:src="@drawable/ic_lemon_partly_cloudy"/>
 
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/day1_desciption"/>
+
         </LinearLayout>
 
 
@@ -99,9 +105,9 @@
 
             <TextView
                 android:layout_width="85dp"
-                android:layout_height="65dp"
-                android:id="@+id/day2_text"
-                android:text="22"/>
+                android:layout_height="wrap_content"
+                android:id="@+id/day2_temp"
+                />
 
             <ImageView
                 android:id="@+id/day2_img"
@@ -109,6 +115,11 @@
                 android:layout_height="85dp"
                 android:src="@drawable/ic_lemon_sunny"/>
 
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/day2_description"/>
+
         </LinearLayout>
 
 
@@ -119,9 +130,9 @@
 
             <TextView
                 android:layout_width="85dp"
-                android:layout_height="65dp"
-                android:id="@+id/day3_text"
-                android:text="22"/>
+                android:layout_height="wrap_content"
+                android:id="@+id/day3_temp"
+                />
 
             <ImageView
                 android:id="@+id/day3_img"
@@ -129,6 +140,11 @@
                 android:layout_height="85dp"
                 android:src="@drawable/ic_lemon_rainy"/>
 
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/day3_description"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -138,15 +154,20 @@
 
             <TextView
                 android:layout_width="85dp"
-                android:layout_height="65dp"
-                android:id="@+id/day4_text"
-                android:text="22"/>
+                android:layout_height="wrap_content"
+                android:id="@+id/day4_temp"
+                />
 
             <ImageView
                 android:id="@+id/day4_img"
                 android:layout_width="85dp"
                 android:layout_height="85dp"
                 android:src="@drawable/ic_lemon_cloudy"/>
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/day4_description"/>
 
         </LinearLayout>
 

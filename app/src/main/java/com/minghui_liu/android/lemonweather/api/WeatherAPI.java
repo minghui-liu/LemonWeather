@@ -1,6 +1,7 @@
 package com.minghui_liu.android.lemonweather.api;
 
-import com.minghui_liu.android.lemonweather.model.WeatherModel;
+import com.minghui_liu.android.lemonweather.model.forcast.Forecast;
+import com.minghui_liu.android.lemonweather.model.weather.WeatherModel;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -15,5 +16,11 @@ public interface WeatherAPI {
 
     @GET("/weather")
     void getWeatherById(@Query("id") String id, @Query("units") String units, @Query("appid") String appid, Callback<WeatherModel> callBack);
+
+    @GET("/forecast/daily")
+    void getForecastByName(@Query("q") String city, @Query("units") String units, @Query("appid") String appid, Callback<Forecast> callBack);
+
+    @GET("/forecast/daily")
+    void getForecastById(@Query("id") String id, @Query("units") String units, @Query("appid") String appid, Callback<Forecast> callBack);
 
 }

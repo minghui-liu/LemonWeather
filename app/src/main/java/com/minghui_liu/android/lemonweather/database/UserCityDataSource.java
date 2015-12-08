@@ -4,12 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.ArrayAdapter;
 
-import com.minghui_liu.android.lemonweather.model.City;
+import com.minghui_liu.android.lemonweather.model.weather.City;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by kevin on 11/27/15.

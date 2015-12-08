@@ -64,7 +64,8 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/city_id_edit_text"/>
+            android:id="@+id/city_id_edit_text"
+            android:hint="City ID"/>
 
         <Button
             android:layout_width="match_parent"

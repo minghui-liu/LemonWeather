@@ -1,7 +1,9 @@
 package com.minghui_liu.android.lemonweather;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -21,12 +23,12 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.minghui_liu.android.lemonweather.database.UserCityDataSource;
-import com.minghui_liu.android.lemonweather.model.City;
+import com.minghui_liu.android.lemonweather.model.weather.City;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    public String mUnits = "metric";
+    private String mUnits;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mCityIdEditText;
     private Button mAddCityButton;
     private UserCityAdapter mAdapter;
+    private int mDefaultPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Get display unit setting
+        mUnits = PreferenceManager.getDefaultSharedPreferences(this).getString("pref_unit", "imperial");
 
         // Setup navigation drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -97,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
                 int cityid = Integer.parseInt(mCityIdEditText.getText().toString());
                 UserCityDataSource userCityDataSource = UserCityDataSource.get(MainActivity.this);
                 userCityDataSource.addCity(new City(cityname, cityid));
+                mCityNameEditText.setText("");
+                mCityIdEditText.setText("");
                 updateCityList();
             }
         });
@@ -115,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.context_action_delete:
                 AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-                // Log.d("LemonWeather", "Item to delete: " + mAdapter.getItem(info.position).toString());
                 UserCityDataSource.get(this).removeCity(mAdapter.getItem(info.position));
                 updateCityList();
                 return true;
@@ -144,11 +151,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("default_position", mDefaultPosition);
+        editor.commit();
+    }
+
     private void selectItem(int position) {
         // update the main content by replacing fragments
         Fragment fragment = new WeatherFragment();
         Bundle args = new Bundle();
-        args.putInt(WeatherFragment.ARG_CITY_NUMBER, position);
+        args.putInt(WeatherFragment.ARG_CITY_ID, mAdapter.getItem(position).getId());
+        args.putString(WeatherFragment.ARG_CITY_NAME, mAdapter.getItem(position).getName());
         args.putString(WeatherFragment.ARG_UNITS_STRING, mUnits);
         fragment.setArguments(args);
 
@@ -157,8 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
         // update selected item and title, then close the drawer
         mCityListView.setItemChecked(position, true);
-        //setTitle(mCityList[position]);
-        //TODO: set title to city name
+        setTitle(mAdapter.getItem(position).getName());
         mDrawerLayout.closeDrawer(mLeftDrawer);
     }
 
