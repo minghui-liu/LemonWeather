@@ -18,4 +18,9 @@
         <item>metric</item>
     </string-array>
     <string name="pref_unit_default">Fahrenhait</string>
+
+    <string name="notificationSwitch_OnSummary">Notification On</string>
+    <string name="notificationSwitch_OffSummary">Notification Off</string>
+    <string name="switch_preference_key">notification_switch</string>
+
 </resources>

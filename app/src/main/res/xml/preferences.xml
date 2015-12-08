@@ -8,4 +8,12 @@
         android:entries="@array/pref_unit_entries"
         android:entryValues="@array/pref_unit_values"
         android:defaultValue="@string/pref_unit_default" />
+
+    <SwitchPreference
+        android:key="pref_notification"
+        android:summaryOn="@string/notificationSwitch_OnSummary"
+        android:summaryOff="@string/notificationSwitch_OffSummary"
+        android:defaultValue="true"
+
+        />
 </PreferenceScreen>

@@ -26,6 +26,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.minghui_liu.android.lemonweather.MainActivity"/>
         </activity>
+        <receiver android:process=":remote" android:name="AlarmReceiver"></receiver>
     </application>
 
 </manifest>
