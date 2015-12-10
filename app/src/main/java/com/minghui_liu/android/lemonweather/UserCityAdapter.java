@@ -7,10 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.minghui_liu.android.lemonweather.R;
-import com.minghui_liu.android.lemonweather.model.City;
+import com.minghui_liu.android.lemonweather.model.weather.City;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

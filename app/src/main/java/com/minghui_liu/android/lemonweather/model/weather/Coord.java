@@ -1,5 +1,5 @@
 
-package com.minghui_liu.android.lemonweather.model;
+package com.minghui_liu.android.lemonweather.model.weather;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -4,6 +4,7 @@
         android:key="pref_unit"
         android:title="@string/pref_unit"
         android:dialogTitle="@string/pref_unit"
+        android:summary="%s"
         android:entries="@array/pref_unit_entries"
         android:entryValues="@array/pref_unit_values"
         android:defaultValue="@string/pref_unit_default" />

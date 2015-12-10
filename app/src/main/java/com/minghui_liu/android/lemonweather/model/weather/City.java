@@ -1,4 +1,4 @@
-package com.minghui_liu.android.lemonweather.model;
+package com.minghui_liu.android.lemonweather.model.weather;
 
 /**
  * Created by kevin on 12/1/15.
