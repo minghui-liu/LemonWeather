@@ -14,8 +14,7 @@
         android:title="Notification"
         android:summaryOn="@string/notificationSwitch_OnSummary"
         android:summaryOff="@string/notificationSwitch_OffSummary"
-        android:defaultValue="true"
-        />
+        android:defaultValue="true"/>
 
     <com.minghui_liu.android.lemonweather.TimePreference
         android:key="pref_time"

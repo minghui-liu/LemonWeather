@@ -3,6 +3,7 @@ package com.minghui_liu.android.lemonweather;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -19,12 +20,12 @@ import android.widget.Toast;
  */
 public class SettingsFragment extends PreferenceFragment {
 
+    private ListPreference mUnitListPreference;
     private SwitchPreference mNotificationSwitch;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         addPreferencesFromResource(R.xml.preferences);
 
         mNotificationSwitch = (SwitchPreference) getPreferenceManager().findPreference("pref_notification");
@@ -35,9 +36,18 @@ public class SettingsFragment extends PreferenceFragment {
                     AlarmService.setAlarm();
                 else
                     AlarmService.cancelAlarm();
-
                 return true;
             }
         });
+
+        mUnitListPreference = (ListPreference) getPreferenceManager().findPreference("pref_unit");
+        mUnitListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                preference.setSummary(((String)newValue).equals("metric") ? "Celsius" : "Fahrenhait");
+                return true;
+            }
+        });
+
     }
 }
