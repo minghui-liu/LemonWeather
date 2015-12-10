@@ -3,7 +3,6 @@ package com.minghui_liu.android.lemonweather;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -12,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +29,7 @@ import com.minghui_liu.android.lemonweather.model.weather.City;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "LemonWeather";
     private static final String STATE_POSITION = "position";
 
@@ -55,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         // Setup navigation drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -138,11 +134,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(STATE_POSITION, mPosition);
 
@@ -188,25 +179,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-       /*SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("default_position", mDefaultPosition);
-        editor.commit();*/
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("pref_unit")) {
-            Log.d(TAG, "unit: " + sharedPreferences.getString(key, "default"));
-        } else if (key.equals("pref_notification")) {
-            Log.d(TAG, "notification: " + sharedPreferences.getBoolean(key, true));
-        }
-    }
-
     private void selectItem(int position) {
         // update the main content by replacing fragments
         Fragment fragment = new WeatherFragment();
@@ -243,7 +215,5 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         if (notificationOn)
             AlarmService.setAlarm();
     }
-
-
 }
 

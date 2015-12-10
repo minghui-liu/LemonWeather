@@ -17,7 +17,7 @@
         <item>imperial</item>
         <item>metric</item>
     </string-array>
-    <string name="pref_unit_default">Fahrenheit</string>
+    <string name="pref_unit_default">imperial</string>
 
     <string name="notificationSwitch_OnSummary">Notification On</string>
     <string name="notificationSwitch_OffSummary">Notification Off</string>

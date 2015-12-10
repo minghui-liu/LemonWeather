@@ -28,8 +28,16 @@ public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         addPreferencesFromResource(R.xml.preferences);
+
+        mUnitListPreference = (ListPreference) getPreferenceManager().findPreference("pref_unit");
+        mUnitListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                preference.setSummary(newValue.equals("metric") ? "Celsius" : "Fahrenheit");
+                return true;
+            }
+        });
 
         mNotificationSwitch = (SwitchPreference) getPreferenceManager().findPreference("pref_notification");
         mNotificationSwitch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -44,15 +52,6 @@ public class SettingsFragment extends PreferenceFragment {
                     mTimePreference.setEnabled(false);
                     AlarmService.cancelAlarm();
                 }
-                return true;
-            }
-        });
-
-        mUnitListPreference = (ListPreference) getPreferenceManager().findPreference("pref_unit");
-        mUnitListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                preference.setSummary(((String)newValue).equals("metric") ? "Celsius" : "Fahrenheit");
                 return true;
             }
         });
