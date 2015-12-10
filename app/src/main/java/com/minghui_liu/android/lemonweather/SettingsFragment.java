@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.Toast;
+import java.util.Calendar;
 
 /**
  * Created by kevin on 11/27/15.
@@ -22,20 +23,27 @@ public class SettingsFragment extends PreferenceFragment {
 
     private ListPreference mUnitListPreference;
     private SwitchPreference mNotificationSwitch;
+    private TimePreference mTimePreference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         addPreferencesFromResource(R.xml.preferences);
 
         mNotificationSwitch = (SwitchPreference) getPreferenceManager().findPreference("pref_notification");
         mNotificationSwitch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object notificationOn) {
-                if ((boolean) notificationOn)
+                if ((boolean) notificationOn){
+                    mTimePreference.setEnabled(true);
+                    //Calendar time = mTimePreference.get
                     AlarmService.setAlarm();
-                else
+                }
+                else {
+                    mTimePreference.setEnabled(false);
                     AlarmService.cancelAlarm();
+                }
                 return true;
             }
         });
@@ -49,5 +57,7 @@ public class SettingsFragment extends PreferenceFragment {
             }
         });
 
+        mTimePreference = (TimePreference) getPreferenceManager().findPreference("pref_time");
+        mTimePreference.setEnabled(getPreferenceManager().getSharedPreferences().getBoolean("pref_notification", true));
     }
 }
