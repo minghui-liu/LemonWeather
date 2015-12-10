@@ -31,15 +31,15 @@ public class AlarmService {
 
     public static void setAlarm() {
         // Set the alarm to 10 seconds from now -- DEBUGGING USE ONLY -------------------------
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.SECOND, 10);
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.add(Calendar.SECOND, 10);
 
-        /* set notification time - hard code for now
+        // set notification time - hard code for now
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 11);
-        calendar.set(Calendar.MINUTE, 15);
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 00);
-        */
+
         setAlarm(calendar.getTimeInMillis());
     }
 
