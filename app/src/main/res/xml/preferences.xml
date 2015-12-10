@@ -11,9 +11,15 @@
 
     <SwitchPreference
         android:key="pref_notification"
+        android:title="Notification"
         android:summaryOn="@string/notificationSwitch_OnSummary"
         android:summaryOff="@string/notificationSwitch_OffSummary"
         android:defaultValue="true"
-
         />
+
+    <com.minghui_liu.android.lemonweather.TimePreference
+        android:key="pref_time"
+        android:title="Set Notification Time"
+        android:enabled="false"/>
+
 </PreferenceScreen>
