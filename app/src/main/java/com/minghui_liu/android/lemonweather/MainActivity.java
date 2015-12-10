@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,8 +28,13 @@ import com.minghui_liu.android.lemonweather.model.weather.City;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+    private static final String TAG = "LemonWeather";
+    private static final String STATE_POSITION = "position";
+
     private String mUnits;
+    private int mPosition;
+    private boolean mIsCityListEmpty;
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -39,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText mCityIdEditText;
     private Button mAddCityButton;
     private UserCityAdapter mAdapter;
-    private int mDefaultPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // Get display unit setting
-        mUnits = PreferenceManager.getDefaultSharedPreferences(this).getString("pref_unit", "imperial");
 
         // Setup navigation drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -81,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         mSearchView = (SearchView) findViewById(R.id.city_search_view);
-        // mSearchView.setIconifiedByDefault(false);
 
         mCityListView = (ListView) findViewById(R.id.city_list_view);
         mCityListView.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -110,8 +111,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
         updateCityList();
-        
+
+        // Get display unit setting
+        mUnits = PreferenceManager.getDefaultSharedPreferences(this).getString("pref_unit", "imperial");
+
+        // Get default city
+        if (savedInstanceState != null) {
+            mPosition = savedInstanceState.getInt(STATE_POSITION);
+        } else {
+            mPosition = 0;
+        }
+
+        if (!mIsCityListEmpty) {
+            selectItem(mPosition);
+        }
+
         setAlarmService();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_POSITION, mPosition);
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -157,10 +184,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+       /*SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("default_position", mDefaultPosition);
-        editor.commit();
+        editor.commit();*/
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("pref_unit")) {
+            Log.d(TAG, "unit: " + sharedPreferences.getString(key, "default"));
+        } else if (key.equals("pref_notification")) {
+            Log.d(TAG, "notification: " + sharedPreferences.getBoolean(key, true));
+        }
     }
 
     private void selectItem(int position) {
@@ -183,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateCityList() {
         ArrayList<City> citylist = UserCityDataSource.get(this).getAllCities();
+        mIsCityListEmpty = citylist.isEmpty();
 
         if (mAdapter == null) {
             mAdapter = new UserCityAdapter(this, R.layout.city_list_entry, citylist);
@@ -198,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
         if (notificationOn)
             AlarmService.setAlarm();
     }
+
 
 }
 
