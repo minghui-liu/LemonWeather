@@ -1,4 +1,4 @@
-package com.minghui_liu.android.lemonweather;
+package com.minghui_liu.android.lemonweather.database;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.minghui_liu.android.lemonweather.R;
 import com.minghui_liu.android.lemonweather.model.weather.City;
 
 import java.util.List;

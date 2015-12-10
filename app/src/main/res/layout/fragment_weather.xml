@@ -38,14 +38,14 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/date_text_view"
                     android:textSize="24dp"
-                    />
+                    android:layout_marginLeft="15px"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/day_text_view"
                     android:textSize="24dp"
-                    />
+                    android:layout_marginLeft="15px"/>
             </LinearLayout>
 
             <LinearLayout
@@ -104,12 +104,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:id="@+id/day1_temp_text_view"/>
+                android:id="@+id/day1_temp_text_view"
+                android:layout_gravity="center"
+                />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/day1_description_text_view"/>
+                android:id="@+id/day1_description_text_view"
+                android:layout_gravity="center"/>
 
             <ImageView
                 android:id="@+id/day1_icon_image_view"

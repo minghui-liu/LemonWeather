@@ -10,14 +10,14 @@
 
     <string name="pref_unit">Display Unit</string>
     <string-array name="pref_unit_entries">
-        <item>Fahrenhait</item>
+        <item>Fahrenheit</item>
         <item>Celsius</item>
     </string-array>
     <string-array name="pref_unit_values">
         <item>imperial</item>
         <item>metric</item>
     </string-array>
-    <string name="pref_unit_default">Fahrenhait</string>
+    <string name="pref_unit_default">Fahrenheit</string>
 
     <string name="notificationSwitch_OnSummary">Notification On</string>
     <string name="notificationSwitch_OffSummary">Notification Off</string>

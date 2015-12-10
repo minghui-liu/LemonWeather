@@ -1,5 +1,7 @@
 package com.minghui_liu.android.lemonweather;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 
+import com.minghui_liu.android.lemonweather.database.UserCityAdapter;
 import com.minghui_liu.android.lemonweather.database.UserCityDataSource;
 import com.minghui_liu.android.lemonweather.model.weather.City;
 
@@ -52,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         // Setup navigation drawer
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -83,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         getSupportActionBar().setHomeButtonEnabled(true);
 
         mSearchView = (SearchView) findViewById(R.id.city_search_view);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setSubmitButtonEnabled (true);
 
         mCityListView = (ListView) findViewById(R.id.city_list_view);
         mCityListView.setOnItemClickListener(new ListView.OnItemClickListener() {

@@ -21,7 +21,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationCompat.Builder mBuilder =
                 (NotificationCompat.Builder) new NotificationCompat.Builder(context)
                         .setWhen(System.currentTimeMillis())
-                        .setSmallIcon(R.mipmap.ic_launcher) //switch to lemon icon
+                        .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("Weather for the day")
                         .setContentText("Check out weather updates on Lemon weather!")
                         .setAutoCancel(true)

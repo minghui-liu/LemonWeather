@@ -52,7 +52,7 @@ public class SettingsFragment extends PreferenceFragment {
         mUnitListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                preference.setSummary(((String)newValue).equals("metric") ? "Celsius" : "Fahrenhait");
+                preference.setSummary(((String)newValue).equals("metric") ? "Celsius" : "Fahrenheit");
                 return true;
             }
         });
