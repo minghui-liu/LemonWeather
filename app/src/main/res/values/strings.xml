@@ -32,4 +32,7 @@
     <!-- Search failure message. -->
     <string name="no_results">No results found for \"%s\"</string>
 
+    <string name="result_dialog_title">Search Result</string>
+    <string name="result_dialog_dismiss">Close</string>
+
 </resources>

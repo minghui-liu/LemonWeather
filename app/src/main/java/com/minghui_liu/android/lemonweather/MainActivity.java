@@ -1,5 +1,6 @@
 package com.minghui_liu.android.lemonweather;
 
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -7,10 +8,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -26,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import com.minghui_liu.android.lemonweather.database.CityDatabase;
 import com.minghui_liu.android.lemonweather.database.CityProvider;
@@ -221,45 +225,20 @@ public class MainActivity extends AppCompatActivity {
         if (cursor == null) {
             // There are no results
             // TODO: display result count using toast
-//            mTextView.setText(getString(R.string.no_results, new Object[]{query}));
+            Toast.makeText(this, getString(R.string.no_results, new Object[]{query}), Toast.LENGTH_LONG).show();
             Log.d(TAG, "no results");
         } else {
             // Display the number of results
             int count = cursor.getCount();
             String countString = getResources().getQuantityString(R.plurals.search_results,
                     count, new Object[] {count, query});
-//            mTextView.setText(countString);
+            Toast.makeText(this, countString, Toast.LENGTH_LONG).show();
             Log.d(TAG, countString);
-/*
-            // Specify the columns we want to display in the result
-            String[] from = new String[] { CityDatabase.KEY_NAME,
-                    CityDatabase.KEY_NAME };
 
-            // Specify the corresponding layout elements where we want the columns to go
-            int[] to = new int[] { android.R.id.text1, android.R.id.text2 };
+            SearchResultDialogFragment fragment = new SearchResultDialogFragment();
+            fragment.setCursor(cursor);
 
-            // Create a simple cursor adapter for the definitions and apply them to the ListView
-            SimpleCursorAdapter words = new SimpleCursorAdapter(this,
-                    android.R.layout.simple_list_item_2, cursor, from, to);
-
-            // TODO: launch dialog and display results
-            getListView().setAdapter(words);
-
-            // Define the on-click listener for the list items
-            getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // Build the Intent used to open WordActivity with a specific word Uri
-//                    Intent wordIntent = new Intent(getApplicationContext(), WordActivity.class);
-                    Uri data = Uri.withAppendedPath(CityProvider.CONTENT_URI,
-                            String.valueOf(id));
-//                    wordIntent.setData(data);
-//                    startActivity(wordIntent);
-                    Log.d(TAG, "Clicked: " + data.toString());
-                }
-            });
-            */
+            fragment.show(getSupportFragmentManager(), "search_result");
         }
     }
 
@@ -299,5 +278,7 @@ public class MainActivity extends AppCompatActivity {
         if (notificationOn)
             AlarmService.setAlarm();
     }
+
+
 }
 
