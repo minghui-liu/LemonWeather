@@ -11,13 +11,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                  android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
-            <meta-data android:name="android.app.default_searchable"
-                       android:value=".SearchableActivity"/>
+
+            <meta-data android:name="android.app.searchable"
+                       android:resource="@xml/searchable"/>
         </activity>
 
         <activity
@@ -29,14 +33,8 @@
                 android:value="com.minghui_liu.android.lemonweather.MainActivity"/>
         </activity>
 
-        <activity android:name=".SearchableActivity"
-                  android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                       android:resource="@xml/searchable"/>
-        </activity>
+        <meta-data android:name="android.app.default_searchable"
+                   android:value=".SearchableActivity"/>
 
         <!-- Provides search suggestions for words and their definitions. -->
         <provider android:name=".database.CityProvider"
