@@ -23,4 +23,13 @@
     <string name="notificationSwitch_OffSummary">Notification Off</string>
     <string name="switch_preference_key">notification_switch</string>
 
+    <!-- Shown above search results when we receive a search request. -->
+    <plurals name="search_results">
+        <item quantity="one">%1$d result for \"%2$s\": </item>
+        <item quantity="other">%1$d results for \"%2$s\": </item>
+    </plurals>
+
+    <!-- Search failure message. -->
+    <string name="no_results">No results found for \"%s\"</string>
+
 </resources>

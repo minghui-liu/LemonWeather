@@ -20,5 +20,4 @@
         android:key="pref_time"
         android:title="Set Notification Time"
         android:enabled="false"/>
-
 </PreferenceScreen>
