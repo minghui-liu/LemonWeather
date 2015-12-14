@@ -272,13 +272,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setAlarmService(){
+    private void setAlarmService() {
         AlarmService.setContext(this);
         boolean notificationOn = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("pref_notification", true);
         if (notificationOn)
             AlarmService.setAlarm();
     }
-
 
 }
 

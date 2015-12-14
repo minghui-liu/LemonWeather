@@ -100,6 +100,7 @@ public class CityProvider extends ContentProvider {
         query = query.toLowerCase();
         String[] columns = new String[] {
                 BaseColumns._ID,
+                CityDatabase.KEY_ID,
                 CityDatabase.KEY_NAME,
                 CityDatabase.KEY_COUNTRY,
        /* SearchManager.SUGGEST_COLUMN_SHORTCUT_ID,
@@ -113,6 +114,7 @@ public class CityProvider extends ContentProvider {
         query = query.toLowerCase();
         String[] columns = new String[] {
                 BaseColumns._ID,
+                CityDatabase.KEY_ID,
                 CityDatabase.KEY_NAME,
                 CityDatabase.KEY_COUNTRY};
 
@@ -122,6 +124,7 @@ public class CityProvider extends ContentProvider {
     private Cursor getCity(Uri uri) {
         String rowId = uri.getLastPathSegment();
         String[] columns = new String[] {
+                CityDatabase.KEY_ID,
                 CityDatabase.KEY_NAME,
                 CityDatabase.KEY_COUNTRY};
 
@@ -139,6 +142,7 @@ public class CityProvider extends ContentProvider {
         String rowId = uri.getLastPathSegment();
         String[] columns = new String[] {
                 BaseColumns._ID,
+                CityDatabase.KEY_ID,
                 CityDatabase.KEY_NAME,
                 CityDatabase.KEY_COUNTRY,
                 SearchManager.SUGGEST_COLUMN_SHORTCUT_ID,

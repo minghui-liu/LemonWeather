@@ -12,7 +12,13 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.minghui_liu.android.lemonweather.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,6 +33,7 @@ public class CityDatabase {
     private static final String TAG = "LemonWeather";
 
     //The columns we'll include in the dictionary table
+    public static final String KEY_ID = "city_id";
     public static final String KEY_NAME = SearchManager.SUGGEST_COLUMN_TEXT_1;
     public static final String KEY_COUNTRY = SearchManager.SUGGEST_COLUMN_TEXT_2;
 
@@ -53,6 +60,7 @@ public class CityDatabase {
      */
     private static HashMap<String,String> buildColumnMap() {
         HashMap<String,String> map = new HashMap<String,String>();
+        map.put(KEY_ID, KEY_ID);
         map.put(KEY_NAME, KEY_NAME);
         map.put(KEY_COUNTRY, KEY_COUNTRY);
         map.put(BaseColumns._ID, "rowid AS " +
@@ -153,6 +161,7 @@ public class CityDatabase {
         private static final String FTS_TABLE_CREATE =
                 "CREATE VIRTUAL TABLE " + FTS_VIRTUAL_TABLE +
                         " USING fts3 (" +
+                        KEY_ID + ", " +
                         KEY_NAME + ", " +
                         KEY_COUNTRY + ");";
 
@@ -184,31 +193,28 @@ public class CityDatabase {
         }
 
         private void loadCities() throws IOException {
-            // TODO: load cities from json file
             Log.d(TAG, "Loading cities...");
             final Resources resources = mHelperContext.getResources();
-//            InputStream inputStream = resources.openRawResource(R.raw.definitions);
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            InputStream inputStream = resources.openRawResource(R.raw.citylist);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-            addCity("Yantai", "CN");
-            addCity("Dalian", "CN");
-            addCity("London", "UK");
-            addCity("New York", "US");
-            addCity("Hartford", "US");
+            mDatabase.beginTransaction();
+            try {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] city = line.split(", ");
+                    if (city.length == 3) {
+                        addCity(city[0], city[1], city[2]);
+                    } else if (city.length == 2) {
+                        addCity(city[0], city[1], "");
+                    }
+                }
+            } finally {
+                reader.close();
+            }
+            mDatabase.setTransactionSuccessful();
+            mDatabase.endTransaction();
 
-//            try {
-//                String line;
-//                while ((line = reader.readLine()) != null) {
-//                    String[] strings = TextUtils.split(line, "-");
-//                    if (strings.length < 2) continue;
-//                    long id = addWord(strings[0].trim(), strings[1].trim());
-//                    if (id < 0) {
-//                        Log.e(TAG, "unable to add city: " + strings[0].trim());
-//                    }
-//                }
-//            } finally {
-//                reader.close();
-//            }
             Log.d(TAG, "DONE loading cities.");
         }
 
@@ -216,8 +222,9 @@ public class CityDatabase {
          * Add a city to the citylist.
          * @return rowId or -1 if failed
          */
-        public long addCity(String name, String country) {
+        public long addCity(String id, String name, String country) {
             ContentValues initialValues = new ContentValues();
+            initialValues.put(KEY_ID, id);
             initialValues.put(KEY_NAME, name);
             initialValues.put(KEY_COUNTRY, country);
 
