@@ -51,27 +51,9 @@ public class UserCityDataSource {
         }
     }
 
-    /*public City getCity(int cityid) {
-        Cursor cursor = mDatabase.query(UserCityContract.FeedEntry.TABLE_NAME,
-                null,
-                UserCityContract.FeedEntry.COLUMN_NAME_CITY_ID + " = ? ",
-                new String[] { String.valueOf(cityid) },
-                null,
-                null,
-                null
-                );
-        try {
-            if (cursor.getCount() == 0) {
-                return null;
-            }
-            cursor.moveToFirst();
-            String name = cursor.getString(cursor.getColumnIndex(UserCityContract.FeedEntry.COLUMN_NAME_CITY_NAME));
-            int id = cursor.getInt(cursor.getColumnIndex(UserCityContract.FeedEntry.COLUMN_NAME_CITY_ID));
-            return new City(name, id);
-        } finally {
-            cursor.close();
-        }
-    }*/
+    public City getCity(int pos) {
+        return mCityList.get(pos);
+    }
 
     public ArrayList<City> getAllCities() {
         return mCityList;

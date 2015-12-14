@@ -34,7 +34,7 @@
         </activity>
 
         <meta-data android:name="android.app.default_searchable"
-                   android:value=".SearchableActivity"/>
+                   android:value=".MainActivity"/>
 
         <!-- Provides search suggestions for words and their definitions. -->
         <provider android:name=".database.CityProvider"

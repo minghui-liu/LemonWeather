@@ -2,6 +2,7 @@ package com.minghui_liu.android.lemonweather;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 
 import com.minghui_liu.android.lemonweather.database.CityDatabase;
 import com.minghui_liu.android.lemonweather.database.CityProvider;
+import com.minghui_liu.android.lemonweather.model.weather.Main;
 
 /**
  * Created by kevin on 12/13/15.
@@ -30,10 +32,10 @@ public class SearchResultDialogFragment extends DialogFragment {
         ListView resultListView = new ListView(getContext());
 
         // Specify the columns we want to display in the result
-        String[] from = new String[] { CityDatabase.KEY_NAME,
-                CityDatabase.KEY_COUNTRY };
+        String[] from = new String[]{CityDatabase.KEY_NAME,
+                CityDatabase.KEY_COUNTRY};
         // Specify the corresponding layout elements where we want the columns to go
-        int[] to = new int[] { android.R.id.text1, android.R.id.text2 };
+        int[] to = new int[]{android.R.id.text1, android.R.id.text2};
         // Create a simple cursor adapter for the definitions and apply them to the ListView
         SimpleCursorAdapter cities = new SimpleCursorAdapter(getContext(),
                 android.R.layout.simple_list_item_2, mCursor, from, to);
@@ -44,22 +46,24 @@ public class SearchResultDialogFragment extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Build the Intent used to open WordActivity with a specific word Uri
-//                    Intent wordIntent = new Intent(getApplicationContext(), WordActivity.class);
+                Intent insertIntent = new Intent(getContext(), MainActivity.class);
                 Uri data = Uri.withAppendedPath(CityProvider.CONTENT_URI,
                         String.valueOf(id));
-//                    wordIntent.setData(data);
-//                    startActivity(wordIntent);
-                Log.d(TAG, "Clicked: " + data.toString());
+                insertIntent.setData(data);
+                insertIntent.setAction(Intent.ACTION_VIEW);
+                startActivity(insertIntent);
+                Log.d(TAG, "Selected: " + data.toString());
+                dismiss();
             }
         });
 
         builder.setView(resultListView).setTitle(R.string.result_dialog_title)
                 .setNegativeButton(R.string.result_dialog_dismiss, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-               SearchResultDialogFragment.this.getDialog().cancel();
-            }
-        });
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SearchResultDialogFragment.this.getDialog().cancel();
+                    }
+                });
 
         return builder.create();
     }

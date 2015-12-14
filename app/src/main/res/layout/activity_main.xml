@@ -55,24 +55,6 @@
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"/>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/city_name_edit_text"
-            android:hint="City Name"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/city_id_edit_text"
-            android:hint="City ID"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add"
-            android:id="@+id/add_city_button"/>
-
     </LinearLayout>
 
 

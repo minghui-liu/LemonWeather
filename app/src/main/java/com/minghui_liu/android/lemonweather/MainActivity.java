@@ -52,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout mLeftDrawer;
     private ListView mCityListView;
     private SearchView mSearchView;
-    private EditText mCityNameEditText;
-    private EditText mCityIdEditText;
-    private Button mAddCityButton;
     private UserCityAdapter mAdapter;
 
     @Override
@@ -106,23 +103,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         registerForContextMenu(mCityListView);
-
-        mCityNameEditText = (EditText) findViewById(R.id.city_name_edit_text);
-        mCityIdEditText = (EditText) findViewById(R.id.city_id_edit_text);
-        mAddCityButton = (Button) findViewById(R.id.add_city_button);
-        mAddCityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Add city name to database
-                String cityname = mCityNameEditText.getText().toString();
-                int cityid = Integer.parseInt(mCityIdEditText.getText().toString());
-                UserCityDataSource userCityDataSource = UserCityDataSource.get(MainActivity.this);
-                userCityDataSource.addCity(new City(cityname, cityid));
-                mCityNameEditText.setText("");
-                mCityIdEditText.setText("");
-                updateCityList();
-            }
-        });
 
         updateCityList();
 
@@ -202,13 +182,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            // handles a click on a search suggestion, log it
-            Log.d(TAG, "Clicked suggestion: " + intent.getData().toString());
+            // handles a click on a search suggestion, add city to database
+            Uri uri = intent.getData();
+            Log.d(TAG, "Insert: " + uri.toString());
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int iIndex = cursor.getColumnIndexOrThrow(CityDatabase.KEY_ID);
+                int nIndex = cursor.getColumnIndexOrThrow(CityDatabase.KEY_NAME);
+
+                int cityid = Integer.parseInt(cursor.getString(iIndex));
+                String cityname = cursor.getString(nIndex);
+                Log.d(TAG, "Found: " + cityname + " " + cityid);
+                UserCityDataSource userCityDataSource = UserCityDataSource.get(MainActivity.this);
+                userCityDataSource.addCity(new City(cityname, cityid));
+                updateCityList();
+            }
+            mSearchView.setQuery("", false);
+            mSearchView.setIconified(true);
         } else if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             // handles a search query
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Log.d(TAG, "query: " + query);
+            Log.d(TAG, "Query: " + query);
             showResults(query);
         }
     }
