@@ -191,8 +191,12 @@ public class MainActivity extends AppCompatActivity {
                 userCityDataSource.addCity(new City(name, id, country));
                 updateCityList();
             }
+
             mSearchView.setQuery("", false);
             mSearchView.setIconified(true);
+            ArrayList<City> citylist = UserCityDataSource.get(this).getAllCities();
+            selectItem(citylist.size() - 1);
+
         } else if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             // handles a search query
             String query = intent.getStringExtra(SearchManager.QUERY);
