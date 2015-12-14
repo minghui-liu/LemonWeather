@@ -14,7 +14,7 @@ public class City {
     private String name;
     @SerializedName("coord")
     @Expose
-    private com.minghui_liu.android.lemonweather.model.weather.Coord coord;
+    private Coord coord;
     @SerializedName("country")
     @Expose
     private String country;
@@ -63,7 +63,7 @@ public class City {
      * @return
      *     The coord
      */
-    public com.minghui_liu.android.lemonweather.model.weather.Coord getCoord() {
+    public Coord getCoord() {
         return coord;
     }
 
@@ -72,7 +72,7 @@ public class City {
      * @param coord
      *     The coord
      */
-    public void setCoord(com.minghui_liu.android.lemonweather.model.weather.Coord coord) {
+    public void setCoord(Coord coord) {
         this.coord = coord;
     }
 

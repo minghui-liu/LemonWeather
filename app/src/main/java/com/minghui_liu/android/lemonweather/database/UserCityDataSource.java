@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.minghui_liu.android.lemonweather.model.weather.City;
+import com.minghui_liu.android.lemonweather.model.City;
 
 import java.util.ArrayList;
 
@@ -38,6 +38,7 @@ public class UserCityDataSource {
             ContentValues values = new ContentValues();
             values.put(UserCityContract.FeedEntry.COLUMN_NAME_CITY_ID, c.getId());
             values.put(UserCityContract.FeedEntry.COLUMN_NAME_CITY_NAME, c.getName());
+            values.put(UserCityContract.FeedEntry.COLUNN_NAME_CITY_COUNTRY, c.getCountry());
             mDatabase.insert(UserCityContract.FeedEntry.TABLE_NAME, null, values);
         }
     }
@@ -67,7 +68,8 @@ public class UserCityDataSource {
             while (!cursor.isAfterLast()) {
                 String name = cursor.getString(cursor.getColumnIndex(UserCityContract.FeedEntry.COLUMN_NAME_CITY_NAME));
                 int id = cursor.getInt(cursor.getColumnIndex(UserCityContract.FeedEntry.COLUMN_NAME_CITY_ID));
-                mCityList.add(new City(name, id));
+                String country = cursor.getString(cursor.getColumnIndex(UserCityContract.FeedEntry.COLUNN_NAME_CITY_COUNTRY));
+                mCityList.add(new City(name, id, country));
                 cursor.moveToNext();
             }
         } finally {

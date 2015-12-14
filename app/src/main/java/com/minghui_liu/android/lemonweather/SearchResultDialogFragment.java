@@ -16,7 +16,6 @@ import android.widget.ListView;
 
 import com.minghui_liu.android.lemonweather.database.CityDatabase;
 import com.minghui_liu.android.lemonweather.database.CityProvider;
-import com.minghui_liu.android.lemonweather.model.weather.Main;
 
 /**
  * Created by kevin on 12/13/15.

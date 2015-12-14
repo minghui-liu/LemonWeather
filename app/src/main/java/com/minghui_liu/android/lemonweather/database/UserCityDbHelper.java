@@ -14,7 +14,8 @@ public class UserCityDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + UserCityContract.FeedEntry.TABLE_NAME + " (" +
             UserCityContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
             UserCityContract.FeedEntry.COLUMN_NAME_CITY_NAME + TEXT_TYPE + COMMA_SEP +
-            UserCityContract.FeedEntry.COLUMN_NAME_CITY_ID + INTEGER_TYPE +
+            UserCityContract.FeedEntry.COLUMN_NAME_CITY_ID + INTEGER_TYPE + COMMA_SEP +
+            UserCityContract.FeedEntry.COLUNN_NAME_CITY_COUNTRY + TEXT_TYPE +
             // Any other options for the CREATE command
             " )";
     private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + UserCityContract.FeedEntry.TABLE_NAME;

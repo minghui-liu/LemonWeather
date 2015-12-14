@@ -11,9 +11,9 @@ import retrofit.http.Query;
  */
 public interface ForcastAPI {
     @GET("/forcast")
-    void getForcastByName(@Query("q") String city, @Query("units") String units, @Query("appid") String appid, Callback<Forecast> callBack);
+    void getForecastByName(@Query("q") String city, @Query("units") String units, @Query("appid") String appid, Callback<Forecast> callBack);
 
     @GET("/forcast")
-    void getForcastById(@Query("id") String id, @Query("units") String units, @Query("appid") String appid, Callback<Forecast> callBack);
+    void getForecastById(@Query("id") String id, @Query("units") String units, @Query("appid") String appid, Callback<Forecast> callBack);
 
 }

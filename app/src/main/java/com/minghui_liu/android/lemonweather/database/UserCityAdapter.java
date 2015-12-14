@@ -7,8 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.minghui_liu.android.lemonweather.R;
-import com.minghui_liu.android.lemonweather.model.weather.City;
+import com.minghui_liu.android.lemonweather.model.City;
 
 import java.util.List;
 
@@ -29,12 +28,14 @@ public class UserCityAdapter extends ArrayAdapter<City> {
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.city_list_entry, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_2, parent, false);
         }
         // Lookup view for data population
-        TextView CityListEntryName = (TextView) convertView.findViewById(R.id.city_list_entry_name);
+        TextView CityListEntryTitle = (TextView) convertView.findViewById(android.R.id.text1);
+        TextView CityListEntrySubtitle = (TextView) convertView.findViewById(android.R.id.text2);
         // Populate the data into the template view using the data object
-        CityListEntryName.setText(city.getName());
+        CityListEntryTitle.setText(city.getName());
+        CityListEntrySubtitle.setText(city.getCountry() + " " + city.getId());
         // Return the completed view to render on screen
         return convertView;
     }

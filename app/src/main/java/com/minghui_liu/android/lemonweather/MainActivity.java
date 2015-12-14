@@ -1,6 +1,5 @@
 package com.minghui_liu.android.lemonweather;
 
-import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -8,12 +7,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,19 +20,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.minghui_liu.android.lemonweather.database.CityDatabase;
 import com.minghui_liu.android.lemonweather.database.CityProvider;
 import com.minghui_liu.android.lemonweather.database.UserCityAdapter;
 import com.minghui_liu.android.lemonweather.database.UserCityDataSource;
-import com.minghui_liu.android.lemonweather.model.weather.City;
+import com.minghui_liu.android.lemonweather.model.City;
 
 import java.util.ArrayList;
 
@@ -120,18 +114,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         // Get display unit setting
         mUnits = PreferenceManager.getDefaultSharedPreferences(this).getString("pref_unit", "imperial");
-
         if (!mIsCityListEmpty) {
             selectItem(mPosition);
         }
-
         super.onResume();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(STATE_POSITION, mPosition);
-
         super.onSaveInstanceState(outState);
     }
 
@@ -191,12 +182,13 @@ public class MainActivity extends AppCompatActivity {
                 cursor.moveToFirst();
                 int iIndex = cursor.getColumnIndexOrThrow(CityDatabase.KEY_ID);
                 int nIndex = cursor.getColumnIndexOrThrow(CityDatabase.KEY_NAME);
+                int cIndex = cursor.getColumnIndexOrThrow(CityDatabase.KEY_COUNTRY);
 
-                int cityid = Integer.parseInt(cursor.getString(iIndex));
-                String cityname = cursor.getString(nIndex);
-                Log.d(TAG, "Found: " + cityname + " " + cityid);
+                int id = Integer.parseInt(cursor.getString(iIndex));
+                String name = cursor.getString(nIndex);
+                String country = cursor.getString(cIndex);
                 UserCityDataSource userCityDataSource = UserCityDataSource.get(MainActivity.this);
-                userCityDataSource.addCity(new City(cityname, cityid));
+                userCityDataSource.addCity(new City(name, id, country));
                 updateCityList();
             }
             mSearchView.setQuery("", false);
@@ -214,13 +206,11 @@ public class MainActivity extends AppCompatActivity {
      * @param query The search query
      */
     private void showResults(String query) {
-
         Cursor cursor = getContentResolver().query(CityProvider.CONTENT_URI, null, null,
                 new String[] {query}, null);
 
         if (cursor == null) {
             // There are no results
-            // TODO: display result count using toast
             Toast.makeText(this, getString(R.string.no_results, new Object[]{query}), Toast.LENGTH_LONG).show();
             Log.d(TAG, "no results");
         } else {
@@ -254,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
         mCityListView.setItemChecked(position, true);
         setTitle(mAdapter.getItem(position).getName());
         mDrawerLayout.closeDrawer(mLeftDrawer);
+        mPosition = position;
     }
 
     private void updateCityList() {
@@ -261,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
         mIsCityListEmpty = citylist.isEmpty();
 
         if (mAdapter == null) {
-            mAdapter = new UserCityAdapter(this, R.layout.city_list_entry, citylist);
+            mAdapter = new UserCityAdapter(this, android.R.layout.simple_list_item_2, citylist);
             mCityListView.setAdapter(mAdapter);
         } else {
             mAdapter.notifyDataSetChanged();

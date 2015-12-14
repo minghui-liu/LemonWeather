@@ -4,12 +4,13 @@ package com.minghui_liu.android.lemonweather.model.forcast;
 import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.minghui_liu.android.lemonweather.model.City;
 
 public class Forecast {
 
     @SerializedName("city")
     @Expose
-    private com.minghui_liu.android.lemonweather.model.weather.City city;
+    private City city;
     @SerializedName("cod")
     @Expose
     private String cod;
@@ -28,7 +29,7 @@ public class Forecast {
      * @return
      *     The city
      */
-    public com.minghui_liu.android.lemonweather.model.weather.City getCity() {
+    public City getCity() {
         return city;
     }
 
@@ -37,7 +38,7 @@ public class Forecast {
      * @param city
      *     The city
      */
-    public void setCity(com.minghui_liu.android.lemonweather.model.weather.City city) {
+    public void setCity(City city) {
         this.city = city;
     }
 

@@ -18,6 +18,7 @@ public final class UserCityContract {
         public static final String TABLE_NAME = "user_city_list";
         public static final String COLUMN_NAME_CITY_NAME = "cityname";
         public static final String COLUMN_NAME_CITY_ID = "cityid";
+        public static final String COLUNN_NAME_CITY_COUNTRY = "citycountry";
     }
 }
 

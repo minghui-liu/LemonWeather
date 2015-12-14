@@ -21,7 +21,7 @@ public class List {
     private Integer humidity;
     @SerializedName("weather")
     @Expose
-    private java.util.List<com.minghui_liu.android.lemonweather.model.weather.Weather> weather = new ArrayList<com.minghui_liu.android.lemonweather.model.weather.Weather>();
+    private java.util.List<Weather> weather = new ArrayList<Weather>();
     @SerializedName("speed")
     @Expose
     private Double speed;
@@ -112,7 +112,7 @@ public class List {
      * @return
      *     The weather
      */
-    public java.util.List<com.minghui_liu.android.lemonweather.model.weather.Weather> getWeather() {
+    public java.util.List<Weather> getWeather() {
         return weather;
     }
 
@@ -121,7 +121,7 @@ public class List {
      * @param weather
      *     The weather
      */
-    public void setWeather(java.util.List<com.minghui_liu.android.lemonweather.model.weather.Weather> weather) {
+    public void setWeather(java.util.List<Weather> weather) {
         this.weather = weather;
     }
 

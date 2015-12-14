@@ -83,12 +83,11 @@ public class WeatherFragment extends Fragment {
 
         RestAdapter restAdapter = new RestAdapter.Builder().setEndpoint(APIURL).setLogLevel(RestAdapter.LogLevel.FULL).build();
         WeatherAPI weatherService = restAdapter.create(WeatherAPI.class);
-        weatherService.getWeatherByName(cityname, units, APPID, new Callback<WeatherModel>() {
+        weatherService.getWeatherById(String.valueOf(cityid), units, APPID, new Callback<WeatherModel>() {
             @Override
             public void success(WeatherModel weatherM, Response response) {
                 double temp = weatherM.getMain().getTemp();
                 String description = weatherM.getWeather().get(0).getDescription();
-                int condition = weatherM.getWeather().get(0).getId();
                 int icon = Integer.parseInt(weatherM.getWeather().get(0).getIcon().substring(0, 2));
 
                 mTextViewTemperature.setText(String.format("%.1f", temp));
@@ -130,11 +129,10 @@ public class WeatherFragment extends Fragment {
             }
         });
 
-        weatherService.getForecastByName(cityname, units, APPID, new Callback<Forecast>() {
+        weatherService.getForecastById(String.valueOf(cityid), units, APPID, new Callback<Forecast>() {
 
             @Override
             public void success(Forecast forecast, Response response) {
-                int count = forecast.getCnt();
                 List<com.minghui_liu.android.lemonweather.model.forcast.List> days = forecast.getList();
 
                 for (int i = 0; i < 4; i++) {
@@ -184,8 +182,8 @@ public class WeatherFragment extends Fragment {
 
         mDate = new Date();
         mTextViewUnit.setText(units.equals("metric") ? "°C" : "°F");
-        mTextViewDate.setText(new DateFormat().format("MMM dd, yyyy", mDate));
-        mTextViewDay.setText(new DateFormat().format("EEEE", mDate));
+        mTextViewDate.setText(DateFormat.format("MMM dd, yyyy", mDate));
+        mTextViewDay.setText(DateFormat.format("EEEE", mDate));
 
         return v;
     }
