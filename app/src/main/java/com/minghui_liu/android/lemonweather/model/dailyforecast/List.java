@@ -1,5 +1,5 @@
 
-package com.minghui_liu.android.lemonweather.model.forcast;
+package com.minghui_liu.android.lemonweather.model.dailyforecast;
 
 import java.util.ArrayList;
 import com.google.gson.annotations.Expose;

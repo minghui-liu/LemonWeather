@@ -74,13 +74,6 @@
                         android:textAlignment="viewEnd"
                         android:layout_weight="1"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/unit_text_view"
-                        android:layout_weight="1"
-                        android:textSize="48dp"
-                        android:textAlignment="viewStart"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -99,6 +92,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/day1_date_text_view"
+                android:textAlignment="center"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -132,6 +131,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/day2_date_text_view"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:id="@+id/day2_temp_text_view"/>
 
@@ -158,6 +163,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/day3_date_text_view"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:id="@+id/day3_temp_text_view"/>
 
@@ -180,6 +191,12 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:weightSum="5">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/day4_date_text_view"
+                android:textAlignment="center"/>
 
             <TextView
                 android:layout_width="match_parent"

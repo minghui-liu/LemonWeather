@@ -1,12 +1,11 @@
 
-package com.minghui_liu.android.lemonweather.model.forcast;
+package com.minghui_liu.android.lemonweather.model.hourlyforecast;
 
 import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.minghui_liu.android.lemonweather.model.City;
 
-public class Forecast {
+public class HourlyForecast {
 
     @SerializedName("city")
     @Expose
@@ -22,7 +21,7 @@ public class Forecast {
     private Integer cnt;
     @SerializedName("list")
     @Expose
-    private java.util.List<List> list = new ArrayList<List>();
+    private java.util.List<com.minghui_liu.android.lemonweather.model.hourlyforecast.List> list = new ArrayList<com.minghui_liu.android.lemonweather.model.hourlyforecast.List>();
 
     /**
      * 
@@ -101,7 +100,7 @@ public class Forecast {
      * @return
      *     The list
      */
-    public java.util.List<List> getList() {
+    public java.util.List<com.minghui_liu.android.lemonweather.model.hourlyforecast.List> getList() {
         return list;
     }
 
@@ -110,7 +109,7 @@ public class Forecast {
      * @param list
      *     The list
      */
-    public void setList(java.util.List<List> list) {
+    public void setList(java.util.List<com.minghui_liu.android.lemonweather.model.hourlyforecast.List> list) {
         this.list = list;
     }
 
