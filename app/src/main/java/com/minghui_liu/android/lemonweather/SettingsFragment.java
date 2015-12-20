@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Objects;
 
 /**
  * Created by kevin on 11/27/15.
@@ -45,8 +47,9 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object notificationOn) {
                 if ((boolean) notificationOn){
                     mTimePreference.setEnabled(true);
-                    //Calendar time = mTimePreference.get
-                    AlarmService.setAlarm();
+                    long time = PreferenceManager.getDefaultSharedPreferences(AlarmService.getmContext())
+                            .getLong("pref_time", AlarmService.getDefaultTime());
+                    AlarmService.setAlarm(time);
                 }
                 else {
                     mTimePreference.setEnabled(false);
@@ -58,5 +61,14 @@ public class SettingsFragment extends PreferenceFragment {
 
         mTimePreference = (TimePreference) getPreferenceManager().findPreference("pref_time");
         mTimePreference.setEnabled(getPreferenceManager().getSharedPreferences().getBoolean("pref_notification", true));
+        mTimePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                long newTime = (long) newValue;
+                AlarmService.updateAlarmTime(newTime);
+                return true;
+            }
+        });
+
     }
 }
