@@ -33,7 +33,7 @@ public class TimePreference extends DialogPreference {
 
         setPositiveButtonText("SET");
         setNegativeButtonText("CANCEL");
-        calendar = new GregorianCalendar();
+        calendar = Calendar.getInstance();
     }
 
     @Override
@@ -54,8 +54,11 @@ public class TimePreference extends DialogPreference {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
+            calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
             calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
 
             setSummary(getSummary());
             if (callChangeListener(calendar.getTimeInMillis())) {
@@ -75,17 +78,19 @@ public class TimePreference extends DialogPreference {
 
         if (restoreValue) {
             if (defaultValue == null) {
-                calendar.setTimeInMillis(getPersistedLong(System.currentTimeMillis()));
+                calendar.setTimeInMillis(getPersistedLong(AlarmService.getDefaultTime()));
             } else {
                 calendar.setTimeInMillis(Long.parseLong(getPersistedString((String) defaultValue)));
             }
         } else {
             if (defaultValue == null) {
-                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.setTimeInMillis(AlarmService.getDefaultTime());
             } else {
                 calendar.setTimeInMillis(Long.parseLong((String) defaultValue));
             }
+            persistLong(calendar.getTimeInMillis());
         }
+
         setSummary(getSummary());
     }
 

@@ -32,6 +32,8 @@ import com.minghui_liu.android.lemonweather.database.UserCityDataSource;
 import com.minghui_liu.android.lemonweather.model.City;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "LemonWeather";
@@ -266,9 +268,12 @@ public class MainActivity extends AppCompatActivity {
     private void setAlarmService() {
         AlarmService.setContext(this);
         boolean notificationOn = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("pref_notification", true);
-        if (notificationOn)
-            AlarmService.setAlarm();
+        if (!AlarmService.isAlarmSet() && notificationOn) {
+            long time = PreferenceManager.getDefaultSharedPreferences(this)
+                        .getLong("pref_time", AlarmService.getDefaultTime());
+
+            AlarmService.updateAlarmTime(time);
+        }
     }
 
 }
-
