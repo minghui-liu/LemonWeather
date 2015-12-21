@@ -3,8 +3,10 @@ package com.minghui_liu.android.lemonweather;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.NotificationCompat;
 
 /**
@@ -18,8 +20,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-        //String contentText = getWeather();
-
         NotificationCompat.Builder mBuilder =
                 (NotificationCompat.Builder) new NotificationCompat.Builder(context)
                         .setWhen(System.currentTimeMillis())
@@ -27,6 +27,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         .setContentTitle("Weather for the day")
                         .setContentText("Check out weather updates on LemonWeather!")
                         .setAutoCancel(true)
+                        .setSound(Uri.parse("android.resource://com.minghui_liu.android.lemonweather/" + R.raw.lemon_squeeze))
                         .setContentIntent(pendingIntent);
                         //consider set sound, vibrate, ticker
 
