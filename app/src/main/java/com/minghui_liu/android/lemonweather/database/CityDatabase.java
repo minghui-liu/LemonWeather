@@ -195,7 +195,7 @@ public class CityDatabase {
         private void loadCities() throws IOException {
             Log.d(TAG, "Loading cities...");
             final Resources resources = mHelperContext.getResources();
-            InputStream inputStream = resources.openRawResource(R.raw.citylist);
+            InputStream inputStream = resources.openRawResource(R.raw.citylist_us);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             mDatabase.beginTransaction();

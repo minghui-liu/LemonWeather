@@ -118,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
         mUnits = PreferenceManager.getDefaultSharedPreferences(this).getString("pref_unit", "imperial");
         if (!mIsCityListEmpty) {
             selectItem(mPosition);
+        } else {
+            Toast.makeText(this, getString(R.string.first_time_hint), Toast.LENGTH_LONG).show();
         }
         super.onResume();
     }

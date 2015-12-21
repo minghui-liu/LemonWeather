@@ -35,7 +35,7 @@ public class UserCityAdapter extends ArrayAdapter<City> {
         TextView CityListEntrySubtitle = (TextView) convertView.findViewById(android.R.id.text2);
         // Populate the data into the template view using the data object
         CityListEntryTitle.setText(city.getName());
-        CityListEntrySubtitle.setText(city.getCountry() + " " + city.getId());
+        CityListEntrySubtitle.setText(city.getCountry());
         // Return the completed view to render on screen
         return convertView;
     }

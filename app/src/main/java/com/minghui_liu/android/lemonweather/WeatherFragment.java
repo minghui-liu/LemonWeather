@@ -53,7 +53,7 @@ public class WeatherFragment extends Fragment {
     private TextView mDayTextView;
 
     private TextView[] mDailyForecastTempTextViews;
-    private TextView[] mDailyForecastDescriptionTextViews;
+//    private TextView[] mDailyForecastDescriptionTextViews;
     private ImageView[] mDailyForecastIconImageViews;
     private TextView[] mDailyForecastDateTextViews;
 
@@ -96,10 +96,10 @@ public class WeatherFragment extends Fragment {
                     (TextView)v.findViewById(R.id.day3_temp_text_view),
                     (TextView)v.findViewById(R.id.day4_temp_text_view)};
 
-            mDailyForecastDescriptionTextViews = new TextView[] {(TextView)v.findViewById(R.id.day1_description_text_view),
-                    (TextView)v.findViewById(R.id.day2_description_text_view),
-                    (TextView)v.findViewById(R.id.day3_description_text_view),
-                    (TextView)v.findViewById(R.id.day4_description_text_view)};
+//            mDailyForecastDescriptionTextViews = new TextView[] {(TextView)v.findViewById(R.id.day1_description_text_view),
+//                    (TextView)v.findViewById(R.id.day2_description_text_view),
+//                    (TextView)v.findViewById(R.id.day3_description_text_view),
+//                    (TextView)v.findViewById(R.id.day4_description_text_view)};
 
             mDailyForecastIconImageViews = new ImageView[] {(ImageView)v.findViewById(R.id.day1_icon_image_view),
                     (ImageView)v.findViewById(R.id.day2_icon_image_view),
@@ -173,7 +173,7 @@ public class WeatherFragment extends Fragment {
 
                         //mDailyForecastTempTextViews[i].setText(getString(R.string.forecast_temperature, (int) min, (int) max, mUnit.equals("metric") ? "°C" : "°F"));
                         mDailyForecastTempTextViews[i].setText(String.format("%d", (int) min) + mTempUnit + " ~ " + String.format("%d", (int) max) + mTempUnit);
-                        mDailyForecastDescriptionTextViews[i].setText(days.get(i).getWeather().get(0).getDescription());
+//                        mDailyForecastDescriptionTextViews[i].setText(days.get(i).getWeather().get(0).getDescription());
                         mDailyForecastDateTextViews[i].setText(DateFormat.format("MMM dd, EEE", getDayInFuture(mDate, i + 1)));
 
                         switch (icon) {
@@ -242,8 +242,8 @@ public class WeatherFragment extends Fragment {
                     double pressure = main.getPressure();
                     double humidity = main.getHumidity();
                     int clouds = weatherModel.getClouds().getAll();
-                    Date sunrise = new Date(weatherModel.getSys().getSunrise());
-                    Date sunset = new Date(weatherModel.getSys().getSunset());
+                    Date sunrise = new Date(weatherModel.getSys().getSunrise() * 1000);
+                    Date sunset = new Date(weatherModel.getSys().getSunset() * 1000);
                     double windspeed = weatherModel.getWind().getSpeed();
                     double winddeg = weatherModel.getWind().getDeg();
 
@@ -272,7 +272,7 @@ public class WeatherFragment extends Fragment {
                         int icon = Integer.parseInt(times.get(i).getWeather().get(0).getIcon().substring(0, 2));
 
                         mHourlyForecastTempTextViews[i].setText(String.format("%d", (int) min) + mTempUnit + " ~ " + String.format("%d", (int) max) + mTempUnit);
-                        Date time = new Date(times.get(i).getDt());
+                        Date time = new Date(times.get(i).getDt() * 1000);
                         mHourlyForecastTimeTextViews[i].setText(DateFormat.format("hh:mm a", time));
 
                         switch (icon) {
