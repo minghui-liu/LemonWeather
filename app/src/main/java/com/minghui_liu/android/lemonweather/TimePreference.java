@@ -10,11 +10,11 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Created by Afei on 15-12-10.
  * Code from http://stackoverflow.com/questions/5533078/timepicker-in-preferencescreen
+ * Implements a time picker preference that stores a long value in shared preferences
  */
 public class TimePreference extends DialogPreference {
     private Calendar calendar;
@@ -54,12 +54,14 @@ public class TimePreference extends DialogPreference {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
+            //persist long set to the current date with selected hour and minute
             calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
             calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
 
+            //update preference summary
             setSummary(getSummary());
             if (callChangeListener(calendar.getTimeInMillis())) {
                 persistLong(calendar.getTimeInMillis());
