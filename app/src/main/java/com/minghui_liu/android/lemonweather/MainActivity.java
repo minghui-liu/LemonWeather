@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             mPosition = 0;
         }
 
+        //set notification alarm
         setAlarmService();
     }
 
@@ -267,10 +268,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
+     * Check and set notification alarm
+     */
     private void setAlarmService() {
         AlarmService.setContext(this);
         boolean notificationOn = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("pref_notification", true);
+        //create alarm service with the stored time preference if none exists
         if (!AlarmService.isAlarmSet() && notificationOn) {
+            //get stored time preference
             long time = PreferenceManager.getDefaultSharedPreferences(this)
                         .getLong("pref_time", AlarmService.getDefaultTime());
 

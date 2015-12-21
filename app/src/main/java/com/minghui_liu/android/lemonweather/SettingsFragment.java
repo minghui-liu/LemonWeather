@@ -45,6 +45,7 @@ public class SettingsFragment extends PreferenceFragment {
         mNotificationSwitch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object notificationOn) {
+                //update notification alarm and determine if the time picker should be enabled
                 if ((boolean) notificationOn){
                     mTimePreference.setEnabled(true);
                     long time = PreferenceManager.getDefaultSharedPreferences(AlarmService.getmContext())
@@ -64,6 +65,7 @@ public class SettingsFragment extends PreferenceFragment {
         mTimePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
+                //update the notificaiton alarm with the newly selected time
                 long newTime = (long) newValue;
                 AlarmService.updateAlarmTime(newTime);
                 return true;
