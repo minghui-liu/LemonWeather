@@ -33,7 +33,7 @@ import retrofit.client.Response;
 public class WeatherFragment extends Fragment {
     public static final String ARG_CITY_ID = "city_id";
     public static final String ARG_CITY_NAME = "city_name";
-    public static final String ARG_UNITS_STRING = "unit_string";
+    public static final String ARG_UNIT_STRING = "unit_string";
     public static final String APIURL = "http://api.openweathermap.org/data/2.5";
     public static final String APPID = "61da10c389e32199663fc074efd9b30b";
     private static final String TAG = "LemonWeather";
@@ -76,7 +76,7 @@ public class WeatherFragment extends Fragment {
 
         mCityId = getArguments().getInt(ARG_CITY_ID);
         String cityname = getArguments().getString(ARG_CITY_NAME);
-        mUnit = getArguments().getString(ARG_UNITS_STRING);
+        mUnit = getArguments().getString(ARG_UNIT_STRING);
         mDate = new Date();
         mTempUnit = mUnit.equals("metric") ? "°C" : "°F";
         mWindUnit = mUnit.equals("metric") ? " m/s" : " miles/h";
@@ -250,7 +250,7 @@ public class WeatherFragment extends Fragment {
                     mCloudTextView.setText(clouds + "%");
                     mPressureTextView.setText(pressure + " hPa");
                     mHumidityTextView.setText(humidity + "%");
-                    mWindTextView.setText(winddeg + "° " + windspeed + mWindUnit);
+                    mWindTextView.setText((int)winddeg + "° " + windspeed + mWindUnit);
                     mSunriseTextView.setText(DateFormat.format("hh:mm a", sunrise));
                     mSunsetTextView.setText(DateFormat.format("hh:mm a", sunset));
                 }

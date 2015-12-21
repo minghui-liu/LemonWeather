@@ -32,14 +32,12 @@ import com.minghui_liu.android.lemonweather.database.UserCityDataSource;
 import com.minghui_liu.android.lemonweather.model.City;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "LemonWeather";
     private static final String STATE_POSITION = "position";
 
-    private String mUnits;
+    private String mUnit;
     private int mPosition;
     private boolean mIsCityListEmpty;
 
@@ -116,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         // Get display unit setting
-        mUnits = PreferenceManager.getDefaultSharedPreferences(this).getString("pref_unit", "imperial");
+        mUnit = PreferenceManager.getDefaultSharedPreferences(this).getString("pref_unit", "imperial");
         if (!mIsCityListEmpty) {
             selectItem(mPosition);
         } else {
@@ -243,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putInt(WeatherFragment.ARG_CITY_ID, mAdapter.getItem(position).getId());
         args.putString(WeatherFragment.ARG_CITY_NAME, mAdapter.getItem(position).getName());
-        args.putString(WeatherFragment.ARG_UNITS_STRING, mUnits);
+        args.putString(WeatherFragment.ARG_UNIT_STRING, mUnit);
         fragment.setArguments(args);
 
         FragmentManager fragmentManager = getSupportFragmentManager();

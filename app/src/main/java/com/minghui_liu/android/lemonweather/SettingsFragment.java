@@ -36,7 +36,7 @@ public class SettingsFragment extends PreferenceFragment {
         mUnitListPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                preference.setSummary(newValue.equals("metric") ? "Celsius" : "Fahrenheit");
+                preference.setSummary(newValue.equals("metric") ? "Metric" : "Imperial");
                 return true;
             }
         });
